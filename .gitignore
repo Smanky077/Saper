@@ -1,0 +1,4 @@
+/packages/*
+/SaperApi/bin/*
+/SaperApi/obj/*
+/saper-client/node_modules/*
