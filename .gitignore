@@ -2,3 +2,13 @@
 /SaperApi/bin/*
 /SaperApi/obj/*
 /saper-client/node_modules/*
+/saper-client/build
+/saper-client/.env.development.local
+/saper-client/.env.test.local
+/saper-client/.env.production.local
+/saper-client/.env.local
+/saper-client/.pnp
+/saper-client/.pnp.js
+/saper-client/npm-debug.log*
+/saper-client/yarn-debug.log*
+/saper-client/yarn-error.log*
