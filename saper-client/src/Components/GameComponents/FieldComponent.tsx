@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { FieldGenerator, Rand } from '../../Utils/Helpers';
 import { PlayBoxComponent } from './PlayBoxComponent';
+import { UseGameContext } from '../../Utils/Context';
 
 export const FieldComponent = (props) => {
    const { col, row, minesNumber } = props;
@@ -9,9 +10,18 @@ export const FieldComponent = (props) => {
    const [arr, setArr] = useState(array);
    const [isStarted, setStart] = useState(false);
    const [firstPos, setFirstPos] = useState(new Array<number>());
+   const [dead, setDead] = useState(false);
+   const { win, setWin } = UseGameContext();
+
    let i = -1;
    let j = -1;
 
+   // const mineCounter = (f: number) => {
+   //    mCount = mCount + f;
+   // };
+   const gameOver = () => {
+      setDead(true);
+   };
    const firstClick = (mass: number[]) => {
       setStart(true);
       setFirstPos(mass);
@@ -21,30 +31,46 @@ export const FieldComponent = (props) => {
    };
 
    useEffect(() => {
-      if (isStarted) {
-         minesRender();
-      }
+      minesRender();
    }, [isStarted]);
-
-   console.log(arr, firstPos);
+   const render = () => {
+      if (dead) {
+         return <div style={{ position: 'absolute', left: '13vw', top: '10vh' }}>Помянем!!!</div>;
+      }
+      return (
+         <div>
+            {arr.map((e) => {
+               i++;
+               j = -1;
+               return (
+                  <div key={Rand()} style={{ display: 'flex' }}>
+                     {e.map((e) => {
+                        j++;
+                        return (
+                           <PlayBoxComponent
+                              key={Rand()}
+                              gameOver={gameOver}
+                              firstPos={firstPos}
+                              firstClick={firstClick}
+                              value={e}
+                              isStarted={isStarted}
+                              position={[i, j]}
+                           />
+                        );
+                     })}
+                  </div>
+               );
+            })}
+         </div>
+      );
+   };
 
    return (
       <div
          style={{ position: 'relative', left: '35vw', top: '35vh', width: 35 * col, height: 35 * row, display: 'flex', flexWrap: 'wrap' }}
       >
-         {arr.map((e) => {
-            i++;
-            j = -1;
-            return (
-               <div key={Rand()} style={{ display: 'flex' }}>
-                  {e.map((e) => {
-                     j++;
-                     return <PlayBoxComponent key={Rand()} firstClick={firstClick} value={e} isStarted={isStarted} position={[i, j]} />;
-                  })}
-               </div>
-            );
-         })}
+         <div style={{ position: 'absolute', top: -40 }}>мин осталось: {win}</div>
+         {render()}
       </div>
    );
 };
-//<div onClick={firstClick} style={{ width: '33px', height: '33px', backgroundColor: 'silver', border: 'solid 1px #fff' }}></div>

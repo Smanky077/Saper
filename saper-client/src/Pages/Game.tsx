@@ -1,6 +1,7 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { FieldComponent } from '../Components/GameComponents/FieldComponent';
+import { MineCountContext } from '../Utils/Context';
 
 interface IProps {
    col: number;
@@ -9,9 +10,13 @@ interface IProps {
 }
 
 export const Game: FunctionComponent<IProps> = ({ col, minesNumber, row }) => {
+   const [win, setWin] = useState(minesNumber);
+   const value = { win, setWin };
    return (
-      <div>
-         <FieldComponent col={col} minesNumber={minesNumber} row={row} />
-      </div>
+      <MineCountContext.Provider value={value}>
+         <div>
+            <FieldComponent col={col} minesNumber={minesNumber} row={row} />
+         </div>
+      </MineCountContext.Provider>
    );
 };
