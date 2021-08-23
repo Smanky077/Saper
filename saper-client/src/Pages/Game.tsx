@@ -10,8 +10,8 @@ interface IProps {
 }
 
 export const Game: FunctionComponent<IProps> = ({ col, minesNumber, row }) => {
-   const [win, setWin] = useState(minesNumber);
-   const value = { win, setWin };
+   const [min, setMin] = useState(minesNumber);
+   const value = { min, setMin };
    return (
       <MineCountContext.Provider value={value}>
          <div>

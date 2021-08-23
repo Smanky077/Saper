@@ -11,7 +11,7 @@ export const FieldComponent = (props) => {
    const [isStarted, setStart] = useState(false);
    const [firstPos, setFirstPos] = useState(new Array<number>());
    const [dead, setDead] = useState(false);
-   const { win, setWin } = UseGameContext();
+   const { min } = UseGameContext();
 
    let i = -1;
    let j = -1;
@@ -69,7 +69,7 @@ export const FieldComponent = (props) => {
       <div
          style={{ position: 'relative', left: '35vw', top: '35vh', width: 35 * col, height: 35 * row, display: 'flex', flexWrap: 'wrap' }}
       >
-         <div style={{ position: 'absolute', top: -40 }}>мин осталось: {win}</div>
+         <div style={{ position: 'absolute', top: -40 }}>мин осталось: {min}</div>
          {render()}
       </div>
    );
