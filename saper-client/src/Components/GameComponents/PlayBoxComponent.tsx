@@ -3,13 +3,23 @@ import { FunctionComponent, useState, useEffect } from 'react';
 interface IPlayBoxProps {
    value: number;
    isStarted: boolean;
+   isOpen: boolean;
    firstClick: (mass: number[]) => void;
    position: number[];
    firstPos: number[];
+   minesCounter?: (f: number) => void;
    gameOver?: () => void;
 }
 
-export const PlayBoxComponent: FunctionComponent<IPlayBoxProps> = ({ value, firstClick, isStarted, position, gameOver, firstPos }) => {
+export const PlayBoxComponent: FunctionComponent<IPlayBoxProps> = ({
+   value,
+   firstClick,
+   isStarted,
+   position,
+   firstPos,
+   gameOver,
+   isOpen,
+}) => {
    const [clicked, setClicked] = useState(false);
    const [rclicked, setRClicked] = useState(false);
    const render = () => {
@@ -38,7 +48,6 @@ export const PlayBoxComponent: FunctionComponent<IPlayBoxProps> = ({ value, firs
       }
       return (
          <div
-            id="rClick"
             onClick={() => {
                if (!isStarted) {
                   firstClick(position);

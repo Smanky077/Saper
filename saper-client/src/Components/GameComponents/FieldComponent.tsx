@@ -2,41 +2,60 @@ import { useState, useEffect } from 'react';
 
 import { FieldGenerator, Rand } from '../../Utils/Helpers';
 import { PlayBoxComponent } from './PlayBoxComponent';
-import { UseGameContext } from '../../Utils/Context';
+import { MineCountComponent } from './MineCountComponent';
+import { Box } from '../../Models/Box';
+interface IFieldComponent {
+   col: number;
+   minesNumber: number;
+   row: number;
+   GameOver?: () => void;
+   GameWin?: () => void;
+}
 
-export const FieldComponent = (props) => {
-   const { col, row, minesNumber } = props;
-   const array = new Array<number[]>(row).fill(new Array(col).fill(1));
-   const [arr, setArr] = useState(array);
+export const FieldComponent = (props: IFieldComponent) => {
+   const { col, row, minesNumber, GameOver } = props;
+   const array = new Array<Box[]>(row).fill(new Array(col).fill(new Box()));
+   const [arr, setArr] = useState<Box[][]>(array);
    const [isStarted, setStart] = useState(false);
    const [firstPos, setFirstPos] = useState(new Array<number>());
-   const [dead, setDead] = useState(false);
-   const { min } = UseGameContext();
 
-   let i = -1;
-   let j = -1;
-
-   // const mineCounter = (f: number) => {
-   //    mCount = mCount + f;
-   // };
-   const gameOver = () => {
-      setDead(true);
-   };
-   const firstClick = (mass: number[]) => {
+   const firstClick = (a: number[]) => {
       setStart(true);
-      setFirstPos(mass);
-   };
-   const minesRender = () => {
-      setArr(FieldGenerator(col, row, minesNumber));
+      setFirstPos(a);
+      // const currentBox = arr;
+      // console.log(currentBox);
    };
 
+   const minesRender = () => {
+      let i = -1;
+      let j = -1;
+      let arr = FieldGenerator(col, row, minesNumber);
+      console.log(arr);
+      let mainArr: Box[][] = [];
+      let array1: Box[] = [];
+      arr.forEach((e) => {
+         i++;
+         j = -1;
+         array1 = [];
+         e.forEach((e) => {
+            j++;
+            let Box: Box = { isOpen: false, position: [i, j], value: e };
+            array1.push(Box);
+         });
+         mainArr.push(array1);
+      });
+      setArr(mainArr);
+   };
    useEffect(() => {
-      minesRender();
+      if (isStarted) minesRender();
    }, [isStarted]);
+
+   console.log('Fposition', firstPos);
+   console.log('array', arr);
+
    const render = () => {
-      if (dead) {
-         return <div style={{ position: 'absolute', left: '13vw', top: '10vh' }}>Помянем!!!</div>;
-      }
+      let i = -1;
+      let j = -1;
       return (
          <div>
             {arr.map((e) => {
@@ -49,11 +68,12 @@ export const FieldComponent = (props) => {
                         return (
                            <PlayBoxComponent
                               key={Rand()}
-                              gameOver={gameOver}
                               firstPos={firstPos}
+                              gameOver={GameOver}
                               firstClick={firstClick}
-                              value={e}
+                              value={e.value}
                               isStarted={isStarted}
+                              isOpen={e.isOpen}
                               position={[i, j]}
                            />
                         );
@@ -69,7 +89,9 @@ export const FieldComponent = (props) => {
       <div
          style={{ position: 'relative', left: '35vw', top: '35vh', width: 35 * col, height: 35 * row, display: 'flex', flexWrap: 'wrap' }}
       >
-         <div style={{ position: 'absolute', top: -40 }}>мин осталось: {min}</div>
+         <div style={{ position: 'absolute', top: -40 }}>
+            <MineCountComponent mines={1} />
+         </div>
          {render()}
       </div>
    );
