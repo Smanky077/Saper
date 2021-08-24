@@ -22,8 +22,8 @@ export const FieldComponent = (props: IFieldComponent) => {
    const firstClick = (a: number[]) => {
       setStart(true);
       setFirstPos(a);
-      // const currentBox = arr;
-      // console.log(currentBox);
+      const currentBox = arr;
+      console.log(currentBox);
    };
 
    const minesRender = () => {
