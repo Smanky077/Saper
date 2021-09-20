@@ -22,15 +22,12 @@ export const FieldComponent = (props: IFieldComponent) => {
    const firstClick = (a: number[]) => {
       setStart(true);
       setFirstPos(a);
-      const currentBox = arr;
-      console.log(currentBox);
    };
 
    const minesRender = () => {
       let i = -1;
       let j = -1;
       let arr = FieldGenerator(col, row, minesNumber);
-      console.log(arr);
       let mainArr: Box[][] = [];
       let array1: Box[] = [];
       arr.forEach((e) => {
@@ -49,9 +46,6 @@ export const FieldComponent = (props: IFieldComponent) => {
    useEffect(() => {
       if (isStarted) minesRender();
    }, [isStarted]);
-
-   console.log('Fposition', firstPos);
-   console.log('array', arr);
 
    const render = () => {
       let i = -1;
@@ -90,7 +84,7 @@ export const FieldComponent = (props: IFieldComponent) => {
          style={{ position: 'relative', left: '35vw', top: '35vh', width: 35 * col, height: 35 * row, display: 'flex', flexWrap: 'wrap' }}
       >
          <div style={{ position: 'absolute', top: -40 }}>
-            <MineCountComponent mines={1} />
+            <MineCountComponent GameWin={props.GameWin} />
          </div>
          {render()}
       </div>
