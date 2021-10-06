@@ -1,5 +1,4 @@
-import { ADD_MINE, INIT_MINES, SUB_MINE } from "../Types/Constants";
-import { ImineAction, IMinesState } from "../Types/Interfaces";
+import { MineActionType, IMinesState ,MineActionTypes} from "../Types/Mines";
  
 
 
@@ -7,13 +6,13 @@ const initialState:IMinesState = {
     mines: 0
 }
 
-export const minesCountReducer = (state=initialState,action:ImineAction):IMinesState=>{
+export const minesCountReducer = (state=initialState,action:MineActionType):IMinesState=>{
     switch(action.type){
-        case SUB_MINE:
+        case MineActionTypes.SUB_MINE:
             return {...state , mines:state.mines-1}
-        case ADD_MINE:
+        case MineActionTypes.ADD_MINE:
             return {...state , mines:state.mines+1}
-        case INIT_MINES: 
+        case MineActionTypes.INIT_MINES: 
             return {...state,mines:action.payload}   
         default: 
             return state

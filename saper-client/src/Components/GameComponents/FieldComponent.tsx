@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { FieldGenerator, Rand } from '../../Utils/Helpers';
 import { PlayBoxComponent } from './PlayBoxComponent';
@@ -22,12 +22,13 @@ export const FieldComponent = (props: IFieldComponent) => {
    const firstClick = (a: number[]) => {
       setStart(true);
       setFirstPos(a);
+      minesRender(a);
    };
 
-   const minesRender = () => {
+   const minesRender = (firstPos: number[]) => {
       let i = -1;
       let j = -1;
-      let arr = FieldGenerator(col, row, minesNumber);
+      let arr = FieldGenerator(col, row, minesNumber, firstPos);
       let mainArr: Box[][] = [];
       let array1: Box[] = [];
       arr.forEach((e) => {
@@ -43,9 +44,6 @@ export const FieldComponent = (props: IFieldComponent) => {
       });
       setArr(mainArr);
    };
-   useEffect(() => {
-      if (isStarted) minesRender();
-   }, [isStarted]);
 
    const render = () => {
       let i = -1;

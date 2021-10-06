@@ -1,8 +1,7 @@
 import { FunctionComponent, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { FieldComponent } from '../Components/GameComponents/FieldComponent';
-import { useTypedSelector } from '../Hooks/UseTypedSelector';
-import { INIT_MINES } from '../Store/Types/Constants';
+import { useActions } from '../Hooks/UseActions';
+import { InitMine } from '../Store/ActionCreators/minesCounterActions';
 //import { MineCountContext } from '../Utils/Context';
 
 interface IProps {
@@ -12,10 +11,12 @@ interface IProps {
 }
 
 export const Game: FunctionComponent<IProps> = ({ col, minesNumber, row }) => {
-   const dispatch = useDispatch();
+   const { InitMine, InitBoxes } = useActions();
    const [dead, setDead] = useState(false);
    const [win, setWin] = useState(false);
-   dispatch({ type: INIT_MINES, payload: minesNumber });
+
+   InitMine(minesNumber);
+   InitBoxes(col * row - minesNumber);
    const GameOver = () => {
       setDead(true);
    };

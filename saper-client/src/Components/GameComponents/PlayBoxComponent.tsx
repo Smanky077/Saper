@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { SUB_MINE, ADD_MINE } from '../../Store/Types/Constants';
+import { useActions } from '../../Hooks/UseActions';
+import { store } from '../../Store';
 
 interface IPlayBoxProps {
    value: number;
@@ -24,7 +24,8 @@ export const PlayBoxComponent: FunctionComponent<IPlayBoxProps> = ({
 }) => {
    const [clicked, setClicked] = useState(false);
    const [rclicked, setRClicked] = useState(false);
-   const dispatch = useDispatch();
+
+   const { AddMine, SubMine, OpenBox } = useActions();
 
    const render = () => {
       if (clicked && value === -1) {
@@ -43,7 +44,7 @@ export const PlayBoxComponent: FunctionComponent<IPlayBoxProps> = ({
                onContextMenu={(e) => {
                   e.preventDefault();
                   setRClicked(false);
-                  dispatch({ type: ADD_MINE });
+                  AddMine();
                }}
                style={{ width: '33px', height: '33px', backgroundColor: 'silver', border: 'solid 1px #fff' }}
             >
@@ -58,11 +59,14 @@ export const PlayBoxComponent: FunctionComponent<IPlayBoxProps> = ({
                   firstClick(position);
                }
                setClicked(true);
+               OpenBox();
             }}
             onContextMenu={(e) => {
                e.preventDefault();
-               setRClicked(true);
-               dispatch({ type: SUB_MINE });
+               if (store.getState().mines.mines !== 0) {
+                  setRClicked(true);
+                  SubMine();
+               }
             }}
             style={{ width: '33px', height: '33px', backgroundColor: 'silver', border: 'solid 1px #fff' }}
          ></div>

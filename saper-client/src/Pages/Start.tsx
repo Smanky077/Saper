@@ -7,7 +7,7 @@ export const Start = () => {
    const [option, setOption] = useState(false);
    const Route = () => {
       if (start) {
-         return <Game col={15} row={6} minesNumber={20} />;
+         return <Game col={15} row={6} minesNumber={10} />;
       }
       if (option) {
          return <div>Option</div>;

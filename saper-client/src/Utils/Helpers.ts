@@ -1,6 +1,6 @@
 
 
-export const FieldGenerator = (col:number,row:number,mineNum:number)=>{
+export const FieldGenerator = (col:number,row:number,mineNum:number,noMineIndex:number[])=>{
   var arr:number[][]=[];
   var mina = -1;
  for (let i=0; i<row;i++){
@@ -9,16 +9,17 @@ export const FieldGenerator = (col:number,row:number,mineNum:number)=>{
  const rand = (n:number)=>{
     return Math.floor(Math.random()*(n));
 }
- const checkMass=()=>{
+ const checkMass=(noMineIndex:number[])=>{
     var randRow = rand(row);
      var randCol = rand(col);
-    if (arr[randRow][randCol]=== mina ){
-        checkMass();
-    }
-    arr[randRow][randCol]= mina ;
+    if (arr[randRow][randCol] === mina){
+        checkMass(noMineIndex);
+    }else if(noMineIndex[0]===randRow && noMineIndex[1] === randCol){
+        checkMass(noMineIndex);
+    }else arr[randRow][randCol] = mina ;
 };
  for (let i = 0 ;i < mineNum; i++){
-     checkMass();
+     checkMass(noMineIndex);
  };
 
   for (let i =0 ; i<row;i++){
